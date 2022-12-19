@@ -1,9 +1,39 @@
 import "./App.css";
-import { useState } from "react";
+import * as BookApi from "./BooksAPI";
+import { useEffect, useState } from "react";
+import BookShelf from "./components/BookShelf";
+import BookList from "./components/BookList";
 
 function App() {
   const [showSearchPage, setShowSearchpage] = useState(false);
 
+  const [books, setBooks] = useState([]);
+
+  useEffect(() => {
+    const getBooks = async () => {
+      const response = await BookApi.getAll();
+      if (response.error) {
+        console.log("Network Error");
+        console.log(response.error);
+      }
+      setBooks(response);
+    };
+    getBooks();
+  }, []);
+
+  const changeBookShelf = () => {};
+
+  return (
+    <div className="app">
+      <div className="list-books">
+        <BookList books={books} onShelfChange={changeBookShelf} />
+      </div>
+    </div>
+  );
+}
+
+export default App;
+/**
   return (
     <div className="app">
       {showSearchPage ? (
@@ -280,5 +310,4 @@ function App() {
     </div>
   );
 }
-
-export default App;
+*/
