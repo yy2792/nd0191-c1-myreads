@@ -1,8 +1,8 @@
 import "./App.css";
 import * as BookApi from "./BooksAPI";
 import { useEffect, useState } from "react";
-import BookShelf from "./components/BookShelf";
-import BookList from "./components/BookList";
+import { Routes, Route } from "react-router-dom";
+import MyReads from "./pages/MyReads";
 
 function App() {
   const [showSearchPage, setShowSearchpage] = useState(false);
@@ -29,14 +29,12 @@ function App() {
   };
 
   return (
-    <div className="app">
-      <div className="list-books">
-        <div className="list-books-title">
-          <h1>MyReads</h1>
-        </div>
-        <BookList books={books} onShelfChange={onShelfChange} />
-      </div>
-    </div>
+    <Routes>
+      <Route
+        path="/"
+        element={<MyReads books={books} onShelfChange={onShelfChange} />}
+      />
+    </Routes>
   );
 }
 
