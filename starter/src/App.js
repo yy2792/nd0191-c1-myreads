@@ -21,7 +21,12 @@ function App() {
     getBooks();
   }, []);
 
-  const changeBookShelf = () => {};
+  const onShelfChange = (book, shelf) => {
+    BookApi.update(book, shelf);
+
+    book.shelf = shelf;
+    setBooks(books.filter((b) => b.id !== book.id).concat(book));
+  };
 
   return (
     <div className="app">
@@ -29,7 +34,7 @@ function App() {
         <div className="list-books-title">
           <h1>MyReads</h1>
         </div>
-        <BookList books={books} onShelfChange={changeBookShelf} />
+        <BookList books={books} onShelfChange={onShelfChange} />
       </div>
     </div>
   );

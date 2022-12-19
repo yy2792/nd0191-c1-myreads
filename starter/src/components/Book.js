@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import BookShelfChanger from "./BookShelfChanger";
 import IBook from "../common/Models";
 
-const Book = ({ book, onShelfUpdate }) => {
+const Book = ({ book, onShelfChange }) => {
   return (
     <li key={book.id}>
       <div className="book">
@@ -16,7 +16,7 @@ const Book = ({ book, onShelfUpdate }) => {
               backgroundImage: `url(${book?.imageLinks?.thumbnail})`,
             }}
           ></div>
-          <BookShelfChanger book={book} onShelfUpdate={onShelfUpdate} />
+          <BookShelfChanger book={book} onShelfChange={onShelfChange} />
         </div>
         <div className="book-title">{book?.title}</div>
         <div className="book-authors">{book?.authors?.join(", ")}</div>
@@ -24,7 +24,5 @@ const Book = ({ book, onShelfUpdate }) => {
     </li>
   );
 };
-
-Book.propTypes = IBook;
 
 export default Book;
