@@ -3,6 +3,7 @@ import * as BookApi from "./BooksAPI";
 import { useEffect, useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import MyReads from "./pages/MyReads";
+import MySearch from "./pages/MySearch";
 
 function App() {
   const [showSearchPage, setShowSearchpage] = useState(false);
@@ -33,6 +34,10 @@ function App() {
       <Route
         path="/"
         element={<MyReads books={books} onShelfChange={onShelfChange} />}
+      />
+      <Route
+        path="/search"
+        element={<MySearch books={books} onShelfChange={onShelfChange} />}
       />
     </Routes>
   );
