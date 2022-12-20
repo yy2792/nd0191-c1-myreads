@@ -1,25 +1,39 @@
 import { Link } from "react-router-dom";
+import * as BookApi from "../BooksAPI";
+import { useEffect, useState } from "react";
+import Book from "../components/Book";
 
 const SearchBook = ({ books, onShelfChange }) => {
   const [term, setTerm] = useState("");
-  const [books, setBooks] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
+  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
+
+  const handleDebouncedSearchTermChange = (event) => {
+    setDebouncedSearchTerm(event.target.value);
+  };
+
+  useEffect(() => {
+    const debouncedSearch = setTimeout(() => setTerm(debouncedSearchTerm), 50);
+
+    return () => clearTimeout(debouncedSearch);
+  }, [debouncedSearchTerm]);
 
   useEffect(() => {
     const searchBooks = (term) => {
       if (term.length !== 0) {
-        BooksAPI.search(term).then((books) => {
+        BookApi.search(term).then((books) => {
           if (!books.error) {
-            setBooks(books);
+            setSearchResults(books);
           } else {
-            setBooks([]);
+            setSearchResults([]);
           }
         });
       } else {
-        setBooks([]);
+        setSearchResults([]);
       }
     };
     searchBooks(term);
-  }, [term, debouncedTerm]);
+  }, [term]);
 
   return (
     <div className="search-books">
@@ -28,11 +42,29 @@ const SearchBook = ({ books, onShelfChange }) => {
           Close
         </Link>
         <div className="search-books-input-wrapper">
-          <input type="text" placeholder="Search by title, author, or ISBN" />
+          <input
+            type="text"
+            value={term}
+            onChange={handleDebouncedSearchTermChange}
+            placeholder="Search by title, author, or ISBN"
+          />
         </div>
       </div>
       <div className="search-books-results">
-        <ol className="books-grid"></ol>
+        <ol className="books-grid">
+          {searchResults.length > 0 &&
+            searchResults.map((book) => {
+              if (book.shelf === undefined) {
+                book.shelf = "none";
+              }
+
+              return (
+                <li key={book?.id}>
+                  <Book book={book} onShelfChange={onShelfChange} />
+                </li>
+              );
+            })}
+        </ol>
       </div>
     </div>
   );
