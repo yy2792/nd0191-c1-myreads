@@ -54,10 +54,15 @@ const SearchBook = ({ books, onShelfChange }) => {
         <ol className="books-grid">
           {searchResults.length > 0 &&
             searchResults.map((book) => {
-              if (book.shelf === undefined) {
+              const bookInShelf = books.find(
+                (bookInShelf) => bookInShelf.id === book.id
+              );
+
+              if (bookInShelf) {
+                book.shelf = bookInShelf.shelf;
+              } else {
                 book.shelf = "none";
               }
-
               return (
                 <Book
                   key={book?.id}
