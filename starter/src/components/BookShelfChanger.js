@@ -4,7 +4,6 @@ const BookShelfChanger = ({ book, onShelfChange }) => {
   const [shelf, setShelf] = useState(book.shelf);
 
   const onSelectChange = (event) => {
-    console.log(onShelfChange);
     const value = event.target.value;
     setShelf(value);
     onShelfChange(book, value);
