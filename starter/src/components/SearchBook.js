@@ -59,9 +59,11 @@ const SearchBook = ({ books, onShelfChange }) => {
               }
 
               return (
-                <li key={book?.id}>
-                  <Book book={book} onShelfChange={onShelfChange} />
-                </li>
+                <Book
+                  key={book?.id}
+                  book={book}
+                  onShelfChange={onShelfChange}
+                />
               );
             })}
         </ol>
